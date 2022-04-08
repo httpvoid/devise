@@ -87,7 +87,7 @@ module Devise
         end
 
         def set_reset_password_token
-          raw, enc = Devise.token_generator.generate(self.class, :reset_password_token)
+          enc,raw = Devise.token_generator.generate(self.class, :reset_password_token)
 
           self.reset_password_token   = enc
           self.reset_password_sent_at = Time.now.utc
@@ -144,7 +144,7 @@ module Devise
         # Attributes must contain reset_password_token, password and confirmation
         def reset_password_by_token(attributes = {})
           original_token       = attributes[:reset_password_token]
-          reset_password_token = Devise.token_generator.digest(self, :reset_password_token, original_token)
+          reset_password_token = original_token# Devise.token_generator.digest(self, :reset_password_token, original_token)
 
           recoverable = find_or_initialize_with_error_by(:reset_password_token, reset_password_token)
 
